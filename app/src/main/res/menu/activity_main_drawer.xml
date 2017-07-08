@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="Menu">
+            <menu>
+
+            <group android:checkableBehavior="single">
+            <item
+                android:id="@+id/nav_memory"
+                android:icon="@drawable/ic_icon"
+                android:title="MEMORY" />
+            <item
+                android:id="@+id/nav_rank"
+                android:icon="@drawable/ic_rank"
+                android:title="RANKING" />
+            <item
+                android:id="@+id/nav_music"
+                android:icon="@drawable/ic_musical_note"
+                android:title="MUSIC" />
+            <item
+                android:id="@+id/nav_perfil"
+                android:icon="@drawable/ic_users"
+                android:title="PROFILE" />
+            <item
+                android:id="@+id/nav_calc"
+                android:icon="@drawable/ic_calculator"
+                android:title="CALCULATOR" />
+            <item
+                android:id="@+id/nav_temps"
+                android:icon="@drawable/ic_cloud"
+                android:title="WEATHER" />
+            </group>
+    </menu>
+
+
+    </item>
+
+</menu>

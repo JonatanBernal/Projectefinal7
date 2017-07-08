@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.ramiro.projectefinal">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".activities.calculator"></activity>
+        <activity android:name=".database.login">
+
+        </activity>
+        <activity android:name=".activities.memory" />
+        <activity android:name=".activities.ranking" />
+        <activity android:name=".activities.music" />
+        <activity android:name=".activities.perfil" />
+        <activity android:name=".activities.clima" />
+        <activity android:name=".database.signin" />
+        <activity android:name=".database.login_fail" />
+        <activity android:name=".database.principal">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+        
+        <service android:name=".serveis.BoundService"></service>
+    </application>
+
+</manifest>

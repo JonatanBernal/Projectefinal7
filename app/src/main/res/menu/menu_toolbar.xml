@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_item_crome"
+        app:showAsAction="always"
+        android:title="ITEM 1"
+        android:icon="@drawable/ic_chrome"/>
+    <item
+        android:id="@+id/menu_item_phone"
+        app:showAsAction="always"
+        android:title="ITEM 2"
+        android:icon="@drawable/ic_phone_symbol_of_an_auricular_inside_a_circle"/>
+
+    <group
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/menu_item_toast"
+            android:title="TOAST" />
+        <item
+            android:id="@+id/menu_item_estado"
+            android:title="ESTADO" />
+
+     </group>
+
+    <item
+        android:id="@+id/menu_item_logout"
+        android:title="LOG OUT"/>
+
+
+</menu>
