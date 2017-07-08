@@ -17,6 +17,7 @@ import com.example.ramiro.projectefinal.activities.calculator;
 import com.example.ramiro.projectefinal.activities.music;
 
 public class BoundService extends Service {
+    MediaPlayer mediaPlayer = new MediaPlayer();
 
     private final IBinder binder = new MyBinder();
 
@@ -32,16 +33,17 @@ public class BoundService extends Service {
 
     }
 
-    public void stop_song (MediaPlayer mp) {
-        mp.stop();
+    public void stop_song () {
+        mediaPlayer.stop();
     }
 
-    public void begin_song (MediaPlayer mp) {
-        mp.start();
+    public void begin_song () {
+        mediaPlayer = MediaPlayer.create(this, R.raw.song);
+        mediaPlayer.start();
     }
 
-    public void pause_song (MediaPlayer mp) {
-        mp.pause();
+    public void pause_song () {
+        mediaPlayer.pause();
 
     }
 }

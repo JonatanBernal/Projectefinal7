@@ -15,7 +15,7 @@ import com.example.ramiro.projectefinal.serveis.BoundService;
 
 public class music extends MainActivity {
 
-    MediaPlayer mediaPlayer = new MediaPlayer();
+    ServiceConnection connection;
     BoundService bserv;
     boolean bound = false;
 
@@ -26,17 +26,31 @@ public class music extends MainActivity {
         super.setItemChecked();
         toolbar.setTitle("MÚSICA");
         Intent i = new Intent(this, BoundService.class);
+
+        connection = new ServiceConnection() {
+            @Override
+            public void onServiceConnected(ComponentName name, IBinder service) {
+                BoundService.MyBinder binder = (BoundService.MyBinder) service;
+                bserv = binder.getService();
+                bound = true;
+            }
+
+            @Override
+            public void onServiceDisconnected(ComponentName name) {
+                bound = false;
+
+            }
+        };
+
         bindService(i,connection, Context.BIND_AUTO_CREATE);
-
-        mediaPlayer = MediaPlayer.create(this, R.raw.song);
-
-
     }
 
     @Override
     protected int whatIsMyId() {
         return R.id.nav_music;
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -46,41 +60,20 @@ public class music extends MainActivity {
     }
 
     public void play_music (View v) {
-        bserv.begin_song(mediaPlayer);
+        bserv.begin_song();
 
     }
     public void pause_music (View v) {
-        bserv.pause_song(mediaPlayer);
+        bserv.pause_song();
 
     }
 
     public void stop_music (View v) {
-        bserv.stop_song(mediaPlayer);
+        bserv.stop_song();
 
     }
 
-    private ServiceConnection connection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            BoundService.MyBinder binder = (BoundService.MyBinder) service;
-            bserv = binder.getService();
-            bound = true;
-        }
 
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-            bound = false;
-        }
-    };
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (bound) {
-            unbindService(connection);
-            bound = false;
-        }
-    }
 
     @Override
     protected void onStop() {
@@ -89,6 +82,6 @@ public class music extends MainActivity {
             unbindService(connection);
             bound = false;
         }
-
     }
+
 }
