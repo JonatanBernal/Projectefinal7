@@ -13,11 +13,14 @@ import android.view.View;
 import com.example.ramiro.projectefinal.R;
 import com.example.ramiro.projectefinal.serveis.BoundService;
 
+import pl.droidsonroids.gif.GifImageView;
+
 public class music extends MainActivity {
 
     ServiceConnection connection;
     BoundService bserv;
     boolean bound = false;
+    GifImageView gif;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,13 +28,15 @@ public class music extends MainActivity {
         setContentView(R.layout.activity_music);
         super.setItemChecked();
         toolbar.setTitle("MÚSICA");
-        Intent i = new Intent(this, BoundService.class);
 
+        gif = (GifImageView) findViewById(R.id.gif_vegeta);
+        Intent i = new Intent(this, BoundService.class);
         connection = new ServiceConnection() {
             @Override
             public void onServiceConnected(ComponentName name, IBinder service) {
                 BoundService.MyBinder binder = (BoundService.MyBinder) service;
                 bserv = binder.getService();
+                bserv.comprovar_gif(gif);
                 bound = true;
             }
 
@@ -41,7 +46,7 @@ public class music extends MainActivity {
 
             }
         };
-
+        startService(i);
         bindService(i,connection, Context.BIND_AUTO_CREATE);
     }
 
@@ -60,16 +65,17 @@ public class music extends MainActivity {
     }
 
     public void play_music (View v) {
-        bserv.begin_song();
+        bserv.begin_song(gif);
 
     }
     public void pause_music (View v) {
-        bserv.pause_song();
+
+        bserv.pause_song(gif);
 
     }
 
     public void stop_music (View v) {
-        bserv.stop_song();
+        bserv.stop_song(gif);
 
     }
 

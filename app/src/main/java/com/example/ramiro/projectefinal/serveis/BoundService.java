@@ -16,8 +16,12 @@ import com.example.ramiro.projectefinal.R;
 import com.example.ramiro.projectefinal.activities.calculator;
 import com.example.ramiro.projectefinal.activities.music;
 
+import pl.droidsonroids.gif.GifImageView;
+
 public class BoundService extends Service {
     MediaPlayer mediaPlayer = new MediaPlayer();
+    int posicion = 0;
+    boolean paused = false;
 
     private final IBinder binder = new MyBinder();
 
@@ -32,18 +36,48 @@ public class BoundService extends Service {
         }
 
     }
+    public void comprovar_gif(GifImageView gif) {
+        if (mediaPlayer.isPlaying()) {
+            gif.setVisibility(gif.VISIBLE);
+        }
+        else gif.setVisibility(gif.INVISIBLE);
 
-    public void stop_song () {
-        mediaPlayer.stop();
     }
 
-    public void begin_song () {
-        mediaPlayer = MediaPlayer.create(this, R.raw.song);
-        mediaPlayer.start();
+    public void destruir() {
+        if(mediaPlayer!=null)
+            mediaPlayer.release();
     }
 
-    public void pause_song () {
-        mediaPlayer.pause();
+    public void stop_song (GifImageView gif) {
+        if (mediaPlayer != null) {
+            gif.setVisibility(gif.INVISIBLE);
+            paused = false;
+            mediaPlayer.stop();
+            posicion = 0;
+        }
+    }
 
+    public void begin_song (GifImageView gif) {
+        if (!mediaPlayer.isPlaying() && !paused) {
+            destruir();
+            gif.setVisibility(gif.VISIBLE);
+            mediaPlayer = MediaPlayer.create(this, R.raw.song);
+            mediaPlayer.start();
+        }
+        else if (mediaPlayer != null && !mediaPlayer.isPlaying() && paused) {
+            gif.setVisibility(gif.VISIBLE);
+            mediaPlayer.seekTo(posicion);
+            mediaPlayer.start();
+        }
+    }
+
+    public void pause_song (GifImageView gif) {
+        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+            gif.setVisibility(gif.INVISIBLE);
+            paused = true;
+            posicion = mediaPlayer.getCurrentPosition();
+            mediaPlayer.pause();
+        }
     }
 }
