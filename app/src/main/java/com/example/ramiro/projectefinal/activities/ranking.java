@@ -63,7 +63,7 @@ public class ranking extends MainActivity {
             finish();
         }
         if (item.getItemId() == R.id.menu_item_reset) {
-
+            myDataBaseHelper.delete_table();
         }
 
         return true;

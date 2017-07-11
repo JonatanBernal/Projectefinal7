@@ -27,6 +27,8 @@ public class login extends AppCompatActivity implements Serializable {
     private MyDataBaseHelper myDataBaseHelper;
 
     private EditText editText1,editText2;
+    private String PREFS_NAME = "principal";
+    private String PREFS_NAME2 = "memory";
 
 
     @Override
@@ -34,7 +36,7 @@ public class login extends AppCompatActivity implements Serializable {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        final String PREFS_NAME = "principal";
+
 
         Button l = (Button) findViewById(R.id.button_login);
         Button s = (Button) findViewById(R.id.button_signin);
@@ -64,6 +66,10 @@ public class login extends AppCompatActivity implements Serializable {
                         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
                         SharedPreferences.Editor editor = settings.edit();
                         editor.putBoolean("myBoolean", true);
+                        editor.apply();
+                        SharedPreferences settings2 = getSharedPreferences(PREFS_NAME2, 0);
+                        SharedPreferences.Editor editor2 = settings.edit();
+                        editor2.putString("myString", us);
                         editor.apply();
                         Intent i = new Intent(login.this, memory.class);
                         //i.putExtra("usuari",us);

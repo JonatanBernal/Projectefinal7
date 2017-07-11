@@ -194,6 +194,11 @@ public class MyDataBaseHelper extends SQLiteOpenHelper {
         return l;
     }
 
+    public void delete_table() {
+
+
+    }
+
     @Override
     public synchronized void close() {
         super.close();

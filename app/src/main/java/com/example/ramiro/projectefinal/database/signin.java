@@ -20,7 +20,6 @@ public class signin extends AppCompatActivity {
     private EditText nom,usuari,contrasenya,correu;
     private MyDataBaseHelper myDataBaseHelper;
 
-    private String PREFS_NAME2 = "memory";
 
 
     @Override
@@ -49,9 +48,6 @@ public class signin extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),"RELLENA TODOS LOS CAMPOS",Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    SharedPreferences settings = getSharedPreferences(PREFS_NAME2, Context.MODE_PRIVATE);
-                    String silent = settings.getString("myString", u);
-
                     myDataBaseHelper.createRow2("3",u,"NOT SCORED");
                     myDataBaseHelper.createRow1(n,u,c,corr);
                     Toast.makeText(getApplicationContext(),"USUARIO REGISTRADO",Toast.LENGTH_SHORT).show();

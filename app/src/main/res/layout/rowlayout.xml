@@ -1,34 +1,27 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent" >
 
     <ImageView
-        android:id="@+id/icon_star"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@drawable/ic_star" />
-
-    <TextView
-        android:id="@+id/us"
-        android:layout_width="250dp"
+        android:id="@+id/icon"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/icon_star"
-        android:layout_toRightOf="@+id/icon_star"
-        android:text="USUARIO"
-        android:textColor="@android:color/black"
-        android:textSize="35sp" />
+        android:src="@android:drawable/btn_star_big_on" />
 
     <TextView
-        android:id="@+id/puntuacio"
+        android:id="@+id/name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/us"
-        android:layout_toRightOf="@+id/us"
-        android:text="PUNTUACIÓN"
-        android:textColor="@android:color/black"
-        android:textSize="30sp" />
+        android:layout_weight="1"
+        android:text="USUARIO"
+        android:textColor="@android:color/black" />
 
-</RelativeLayout>
+    <TextView
+        android:id="@+id/phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="PUNTUACION"
+        android:textColor="@android:color/black" />
+</LinearLayout>
