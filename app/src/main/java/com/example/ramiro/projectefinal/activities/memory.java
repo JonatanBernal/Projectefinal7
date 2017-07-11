@@ -3,6 +3,7 @@ package com.example.ramiro.projectefinal.activities;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
@@ -17,7 +18,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.ramiro.projectefinal.R;
+import com.example.ramiro.projectefinal.database.MyDataBaseHelper;
 import com.example.ramiro.projectefinal.database.login;
+import com.example.ramiro.projectefinal.database.signin;
 import com.example.ramiro.projectefinal.flipper.Coolimagefliper;
 
 import java.util.Map;
@@ -29,7 +32,10 @@ import static com.example.ramiro.projectefinal.R.id.imageView1;
 
 public class memory extends MainActivity {
 
+    private MyDataBaseHelper myDataBaseHelper;
+
     private String PREFS_NAME = "principal";
+    private String PREFS_NAME2 = "memory";
 
     ImageView v1,v2,v3,v4,v5,v6,v7,v8,v9,v10,v11,v12,v13,v14,v15,v16;
 
@@ -160,7 +166,7 @@ public class memory extends MainActivity {
         setContentView(R.layout.activity_memory);
         super.setItemChecked();
         toolbar.setTitle("MEMORY");
-
+        myDataBaseHelper = MyDataBaseHelper.getInstance(this);
         initBoard();
 
     }
@@ -418,6 +424,17 @@ public class memory extends MainActivity {
                 @Override
                 public void run() {
                     try {
+                        SharedPreferences settings = getSharedPreferences(PREFS_NAME2, Context.MODE_PRIVATE);
+                        String ident = settings.getString("identifier","");
+                        Log.v("memory",ident);
+                        String punt = myDataBaseHelper.queryRow2(ident);
+                        Log.v("memory",ident);
+                        if (punt.equals("NOT SCORED")) myDataBaseHelper.updateRow2("3",ident,String.valueOf(moves));
+                        else {
+                            int p = Integer.parseInt(punt);
+                            if (moves < p) myDataBaseHelper.updateRow2("3",ident,String.valueOf(moves));
+                        }
+                        Log.v("ranking","AHORA TENGO QUE GIRAR TODO");
                         d.show();
                         initBoard();
 

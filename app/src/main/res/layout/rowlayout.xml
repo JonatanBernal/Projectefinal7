@@ -1,0 +1,36 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <ImageView
+        android:id="@+id/icon_star"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_star" />
+
+    <TextView
+        android:id="@+id/us"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/icon_star"
+        android:layout_toRightOf="@+id/icon_star"
+        android:layout_weight="1"
+        android:text="USUARIO"
+        android:textColor="@android:color/black"
+        android:textSize="35sp" />
+
+    <TextView
+        android:id="@+id/puntuacio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/us"
+        android:layout_toRightOf="@+id/us"
+        android:layout_weight="1"
+        android:text="PUNTUACIÓN"
+        android:textColor="@android:color/black"
+        android:textSize="30sp" />
+
+</RelativeLayout>

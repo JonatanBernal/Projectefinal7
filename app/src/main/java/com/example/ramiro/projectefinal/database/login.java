@@ -48,9 +48,7 @@ public class login extends AppCompatActivity {
             public void onClick(View v) {
                 String us = editText1.getText().toString();
                 String cont = editText2.getText().toString();
-                Log.v("login",us+" "+cont);
-                String contra = myDataBaseHelper.queryRow(us);
-                Log.v("login pass",contra+"");
+                String contra = myDataBaseHelper.queryRow1(us);
                 if (contra == null) {
                     Intent i = new Intent(login.this,login_fail.class);
                     startActivity(i);
@@ -89,7 +87,7 @@ public class login extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        myDataBaseHelper.close();
+        //myDataBaseHelper.close();
     }
 
 

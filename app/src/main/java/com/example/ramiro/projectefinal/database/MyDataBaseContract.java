@@ -19,5 +19,12 @@ public final class MyDataBaseContract {
         public static final String COLUMN_CORREO = "correo";
         public static final String COLUMN_DIRECCION = "direccion";
     }
+    public static class Table2 implements BaseColumns {
+        public static final String TABLE_NAME = "jugadors";
+
+        public static final String COLUMN_ICON = "icona";
+        public static final String COLUMN_USUARI = "usuari";
+        public static final String COLUMN_PUNTUACIO = "puntuacio";
+    }
 
 }
