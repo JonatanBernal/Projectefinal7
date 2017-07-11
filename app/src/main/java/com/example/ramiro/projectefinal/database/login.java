@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.example.ramiro.projectefinal.R;
 import com.example.ramiro.projectefinal.activities.MainActivity;
+import com.example.ramiro.projectefinal.activities.memory;
 import com.example.ramiro.projectefinal.activities.perfil;
 import com.example.ramiro.projectefinal.database.MyDataBaseHelper;
 
@@ -62,7 +63,8 @@ public class login extends AppCompatActivity {
                         SharedPreferences.Editor editor = settings.edit();
                         editor.putBoolean("myBoolean", true);
                         editor.apply();
-                        Intent i = new Intent(login.this, perfil.class);
+                        Intent i = new Intent(login.this, memory.class);
+                        i.putExtra("usuari",us);
                         startActivity(i);
                         finish();
                     }
