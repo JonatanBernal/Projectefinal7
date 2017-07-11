@@ -17,7 +17,9 @@ import com.example.ramiro.projectefinal.activities.memory;
 import com.example.ramiro.projectefinal.activities.perfil;
 import com.example.ramiro.projectefinal.database.MyDataBaseHelper;
 
-public class login extends AppCompatActivity {
+import java.io.Serializable;
+
+public class login extends AppCompatActivity implements Serializable {
 
 
 
@@ -64,7 +66,7 @@ public class login extends AppCompatActivity {
                         editor.putBoolean("myBoolean", true);
                         editor.apply();
                         Intent i = new Intent(login.this, memory.class);
-                        i.putExtra("usuari",us);
+                        //i.putExtra("usuari",us);
                         startActivity(i);
                         finish();
                     }

@@ -35,6 +35,7 @@ public class memory extends MainActivity {
     private MyDataBaseHelper myDataBaseHelper;
 
     private String PREFS_NAME = "principal";
+    private String PREFS_NAME2 = "memory";
 
     ImageView v1,v2,v3,v4,v5,v6,v7,v8,v9,v10,v11,v12,v13,v14,v15,v16;
 
@@ -423,7 +424,9 @@ public class memory extends MainActivity {
                 @Override
                 public void run() {
                     try {
-                        String ident = getIntent().getStringExtra("usuari");
+                        SharedPreferences settings = getSharedPreferences(PREFS_NAME2, Context.MODE_PRIVATE);
+                        String ident = settings.getString("myString", "");
+                        //String ident = getIntent().getStringExtra("usuari");
                         String punt = myDataBaseHelper.queryRow2(ident);
                         if (punt.equals("NOT SCORED")) myDataBaseHelper.updateRow2("3",ident,String.valueOf(moves));
                         else {
