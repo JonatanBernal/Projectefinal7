@@ -1,7 +1,9 @@
 package com.example.ramiro.projectefinal.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.util.ArrayMap;
@@ -17,20 +19,28 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 
 import com.example.ramiro.projectefinal.R;
+import com.example.ramiro.projectefinal.database.MyDataBaseContract;
+import com.example.ramiro.projectefinal.database.MyDataBaseHelper;
 import com.example.ramiro.projectefinal.database.login;
 import com.example.ramiro.projectefinal.database.login_fail;
 
 public abstract class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     String PREFS_NAME = "principal";
+    String PREFS_NAME2 = "memory";
     Toolbar toolbar;
     DrawerLayout drawer;
     NavigationView navigationView;
     ArrayMap <Integer, Class> m,n;
     private CharSequence mDrawerTitle, mTitle;
+    MyDataBaseHelper dbh;
+    TextView tv11,tv22;
+    String usuari,correo;
+    Cursor c;
 
     {
         m = new ArrayMap<>();
@@ -60,7 +70,9 @@ public abstract class MainActivity extends AppCompatActivity implements Navigati
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        dbh = MyDataBaseHelper.getInstance(this);
+        tv11 = (TextView) findViewById(R.id.textView);
+        tv22 = (TextView) findViewById(R.id.textView1);
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         mTitle = mDrawerTitle = getTitle();
@@ -80,7 +92,18 @@ public abstract class MainActivity extends AppCompatActivity implements Navigati
             /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-                getSupportActionBar().setTitle(mDrawerTitle);
+                /*getSupportActionBar().setTitle(mDrawerTitle);
+                SharedPreferences settings = getSharedPreferences(PREFS_NAME2, Context.MODE_PRIVATE);
+                usuari = settings.getString("myString", "");
+                tv22.setText(usuari);
+                c = dbh.queryTable1(usuari);
+                if (c.moveToFirst()) {
+                    do {
+                        correo = c.getString(c.getColumnIndex(MyDataBaseContract.Table1.COLUMN_CORREO));
+                    } while (c.moveToNext());
+                }
+                tv11.setText(correo);
+                */
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
 
@@ -97,7 +120,6 @@ public abstract class MainActivity extends AppCompatActivity implements Navigati
     }
 
     protected void setItemChecked() {
-        Log.v("CACA","setItemXdsffdasa");
         navigationView.setCheckedItem(whatIsMyId());
     }
 
