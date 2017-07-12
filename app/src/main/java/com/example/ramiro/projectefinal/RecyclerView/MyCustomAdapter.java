@@ -55,11 +55,6 @@ public class MyCustomAdapter extends RecyclerView.Adapter<MyCustomAdapter.Adapte
 
     }
 
-    public void addContacts(List<Contact> contactos) {
-        this.contactos.addAll(contactos);
-        notifyDataSetChanged();
-    }
-
     @Override
     public int getItemCount() {
         return contactos.size();

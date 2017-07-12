@@ -26,15 +26,28 @@ import static android.view.View.FOCUS_RIGHT;
 public class calculator extends MainActivity implements View.OnClickListener {
 
 
+    private String PREFS_NAME3 = "calc";
     boolean decimal = true,sum = false,rest = false,mult = false,div = false;
     boolean toast = true;
     Double resultado = 0.0;
     HorizontalScrollView horizontalScrollView;
+    TextView tv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calculator);
+
+
+
+
+        tv = (TextView) findViewById(R.id.text_view);
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME3, Context.MODE_PRIVATE);
+        String ident = settings.getString("myScreen", "");
+        tv.setText(ident);
+
+        SharedPreferences settings2 = getSharedPreferences(PREFS_NAME3, Context.MODE_PRIVATE);
+        toast = settings.getBoolean("mytoast", true);
 
         horizontalScrollView = (HorizontalScrollView) findViewById(R.id.scroll);
 
@@ -91,45 +104,90 @@ public class calculator extends MainActivity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        TextView tv = (TextView) findViewById(R.id.text_view);
         String a = tv.getText().toString();
+        SharedPreferences settings;
+        SharedPreferences.Editor editor;
 
         horizontalScrollView.fullScroll(HorizontalScrollView.FOCUS_RIGHT);
 
         switch (v.getId()) {
             case R.id.button0:
                 tv.setText(a+"0");
+                settings = getSharedPreferences(PREFS_NAME3,0);
+                editor = settings.edit();
+                editor.putString("myScreen",tv.getText().toString());
+                editor.apply();
                 break;
             case R.id.button1:
                 tv.setText(a+"1");
+                settings = getSharedPreferences(PREFS_NAME3,0);
+                editor = settings.edit();
+                editor.putString("myScreen",tv.getText().toString());
+                editor.apply();
                 break;
             case R.id.button2:
                 tv.setText(a+"2");
+                settings = getSharedPreferences(PREFS_NAME3,0);
+                editor = settings.edit();
+                editor.putString("myScreen",tv.getText().toString());
+                editor.apply();
                 break;
             case R.id.button3:
                 tv.setText(a+"3");
+                settings = getSharedPreferences(PREFS_NAME3,0);
+                editor = settings.edit();
+                editor.putString("myScreen",tv.getText().toString());
+                editor.apply();
                 break;
             case R.id.button4:
                 tv.setText(a+"4");
+                settings = getSharedPreferences(PREFS_NAME3,0);
+                editor = settings.edit();
+                editor.putString("myScreen",tv.getText().toString());
+                editor.apply();
                 break;
             case R.id.button5:
                 tv.setText(a+"5");
+                settings = getSharedPreferences(PREFS_NAME3,0);
+                editor = settings.edit();
+                editor.putString("myScreen",tv.getText().toString());
+                editor.apply();
                 break;
             case R.id.button6:
                 tv.setText(a+"6");
+                settings = getSharedPreferences(PREFS_NAME3,0);
+                editor = settings.edit();
+                editor.putString("myScreen",tv.getText().toString());
+                editor.apply();
                 break;
             case R.id.button7:
                 tv.setText(a+"7");
+                settings = getSharedPreferences(PREFS_NAME3,0);
+                editor = settings.edit();
+                editor.putString("myScreen",tv.getText().toString());
+                editor.apply();
                 break;
             case R.id.button8:
                 tv.setText(a+"8");
+                settings = getSharedPreferences(PREFS_NAME3,0);
+                editor = settings.edit();
+                editor.putString("myScreen",tv.getText().toString());
+                editor.apply();
                 break;
             case R.id.button9:
                 tv.setText(a+"9");
+                settings = getSharedPreferences(PREFS_NAME3,0);
+                editor = settings.edit();
+                editor.putString("myScreen",tv.getText().toString());
+                editor.apply();
                 break;
             case R.id.buttonreset:
                 decimal = true;
                 tv.setText("");
+                settings = getSharedPreferences(PREFS_NAME3,0);
+                editor = settings.edit();
+                editor.putString("myScreen",tv.getText().toString());
+                editor.apply();
                 break;
             case R.id.buttondel:
                 if (a.equals("")) {
@@ -138,6 +196,10 @@ public class calculator extends MainActivity implements View.OnClickListener {
                 else {
                     tv.setText(tv.getText().toString().substring(0,tv.getText().toString().length()-1));
                 }
+                settings = getSharedPreferences(PREFS_NAME3,0);
+                editor = settings.edit();
+                editor.putString("myScreen",tv.getText().toString());
+                editor.apply();
                 break;
             case R.id.buttonsum:
                 if (a.equals("")) {
@@ -285,6 +347,10 @@ public class calculator extends MainActivity implements View.OnClickListener {
 
                 }
                 resultado =0.0;
+                settings = getSharedPreferences(PREFS_NAME3,0);
+                editor = settings.edit();
+                editor.putString("myScreen",tv.getText().toString());
+                editor.apply();
                 break;
         }
 
@@ -337,10 +403,18 @@ public class calculator extends MainActivity implements View.OnClickListener {
             finish();
         }
         else if (item.getItemId() == R.id.menu_item_toast) {
+            SharedPreferences settings = getSharedPreferences(PREFS_NAME3, 0);
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putBoolean("mytoast", true);
+            editor.apply();
             item.setChecked(true);
             toast = true;
         }
         else if (item.getItemId() == R.id.menu_item_estado) {
+            SharedPreferences settings = getSharedPreferences(PREFS_NAME3, 0);
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putBoolean("mytoast", false);
+            editor.apply();
             item.setChecked(true);
             toast = false;;
         }

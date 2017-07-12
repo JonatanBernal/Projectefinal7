@@ -20,19 +20,22 @@ public class signin extends AppCompatActivity {
     private EditText nom,usuari,contrasenya,correu;
     private MyDataBaseHelper myDataBaseHelper;
 
-
+    private boolean ok_correu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin);
         setTitle("SIGN IN");
+        ok_correu = false;
 
         Button b = (Button) findViewById(R.id.button_sigin2);
         nom = (EditText) findViewById(R.id.editText_nombre);
         usuari = (EditText) findViewById(R.id.editText_usuar);
         contrasenya = (EditText) findViewById(R.id.password);
         correu = (EditText) findViewById(R.id.editText_correo);
+
+
 
         myDataBaseHelper = MyDataBaseHelper.getInstance(this);
 
@@ -43,9 +46,19 @@ public class signin extends AppCompatActivity {
                 String u = usuari.getText().toString();
                 String c = contrasenya.getText().toString();
                 String corr = correu.getText().toString();
+                for (int i = 0; i < corr.length() && !ok_correu; ++i) {
+                    char car = corr.charAt(i);
+                    if (car == '@') ok_correu = true;
+                }
 
                 if (n.equals("") || u.equals("") || c.equals("") || corr.equals("")) {
                     Toast.makeText(getApplicationContext(),"RELLENA TODOS LOS CAMPOS",Toast.LENGTH_SHORT).show();
+                }
+                else if (!ok_correu) {
+                    Toast.makeText(getApplicationContext(),"CORREO MAL ESCRITO",Toast.LENGTH_SHORT).show();
+                }
+                else if (myDataBaseHelper.queryRow1(u) != null) {
+                    Toast.makeText(getApplicationContext(),"USUARIO YA REGISTRADO",Toast.LENGTH_SHORT).show();
                 }
                 else {
                     myDataBaseHelper.createRow2("3",u,"NO SCORED");

@@ -143,7 +143,6 @@ public class MyDataBaseHelper extends SQLiteOpenHelper {
         String returnValue = null;
 
         if (c.moveToFirst()) {
-            Log.v("dbh","movetofirs OK");
              returnValue = c.getString(c.getColumnIndex(MyDataBaseContract.Table1.COLUMN_CONTRASEÑA));
         }
 
@@ -165,7 +164,6 @@ public class MyDataBaseHelper extends SQLiteOpenHelper {
         String returnValue = null;
 
         if (c.moveToFirst()) {
-            Log.v("dbh","movetofirs OK");
             returnValue = c.getString(c.getColumnIndex(MyDataBaseContract.Table2.COLUMN_PUNTUACIO));
         }
 
