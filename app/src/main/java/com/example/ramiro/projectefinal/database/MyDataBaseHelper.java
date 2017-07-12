@@ -26,6 +26,8 @@ public class MyDataBaseHelper extends SQLiteOpenHelper {
     public static final int DATABASE_VERSION = 5;
     public static final String DATABASE_NAME = "MyDataBase.db";
 
+    private boolean first = true,second = true, third = true;
+
 
 
     private static final String SQL_CREATE_TABLE1 =
@@ -172,7 +174,7 @@ public class MyDataBaseHelper extends SQLiteOpenHelper {
         return returnValue;
     }
 
-    public List<Contact> queryTable() {
+    public List<Contact> queryTable(boolean first, boolean second, boolean third) {
         Cursor c;
         List<Contact> l = new ArrayList<>();
         c = readable.query(MyDataBaseContract.Table2.TABLE_NAME,
@@ -188,6 +190,18 @@ public class MyDataBaseHelper extends SQLiteOpenHelper {
                 String icon = c.getString(c.getColumnIndex(MyDataBaseContract.Table2.COLUMN_ICON));
                 String usuar = c.getString(c.getColumnIndex(MyDataBaseContract.Table2.COLUMN_USUARI));
                 String punt = c.getString(c.getColumnIndex(MyDataBaseContract.Table2.COLUMN_PUNTUACIO));
+                if (first && !punt.equals("NO SCORED")) {
+                    icon = "0";
+                    first = false;
+                }
+                else if (second && !punt.equals("NO SCORED")) {
+                    icon = "1";
+                    second = false;
+                }
+                else if (third && !punt.equals("NO SCORED")) {
+                    icon = "2";
+                    third = false;
+                }
                 l.add(new Contact(icon,usuar,punt));
             } while (c.moveToNext());
         }
@@ -195,7 +209,21 @@ public class MyDataBaseHelper extends SQLiteOpenHelper {
     }
 
     public void delete_table() {
+        Cursor c;
+        c = readable.query(MyDataBaseContract.Table2.TABLE_NAME,
+                new String[] {"*"},
+                null,
+                null,
+                null,
+                null,
+                MyDataBaseContract.Table2.COLUMN_PUNTUACIO);
 
+        if (c.moveToFirst()) {
+            do {
+                String usuar = c.getString(c.getColumnIndex(MyDataBaseContract.Table2.COLUMN_USUARI));
+                updateRow2("3",usuar,"NO SCORED");
+            } while (c.moveToNext());
+        }
 
     }
 

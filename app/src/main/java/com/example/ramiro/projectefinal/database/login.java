@@ -1,5 +1,6 @@
 package com.example.ramiro.projectefinal.database;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
@@ -37,7 +38,6 @@ public class login extends AppCompatActivity implements Serializable {
         setContentView(R.layout.activity_login);
 
 
-
         Button l = (Button) findViewById(R.id.button_login);
         Button s = (Button) findViewById(R.id.button_signin);
 
@@ -67,11 +67,11 @@ public class login extends AppCompatActivity implements Serializable {
                         SharedPreferences.Editor editor = settings.edit();
                         editor.putBoolean("myBoolean", true);
                         editor.apply();
-                        SharedPreferences settings2 = getSharedPreferences(PREFS_NAME2, 0);
-                        SharedPreferences.Editor editor2 = settings.edit();
-                        editor2.putString("myString", us);
-                        editor.apply();
-                        Intent i = new Intent(login.this, memory.class);
+                        SharedPreferences settings2 = getSharedPreferences(PREFS_NAME2,0);
+                        SharedPreferences.Editor editor2 = settings2.edit();
+                        editor2.putString("myString",us);
+                        editor2.apply();
+                        Intent i = new Intent(login.this, perfil.class);
                         //i.putExtra("usuari",us);
                         startActivity(i);
                         finish();

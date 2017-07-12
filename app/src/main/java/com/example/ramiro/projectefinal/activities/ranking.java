@@ -23,6 +23,24 @@ public class ranking extends MainActivity {
     private LinearLayoutManager mLinearLayout;
     MyCustomAdapter contactsAdapter;
     List<Contact> l;
+    private boolean first,second,third,reset = false;
+
+
+    public void init() {
+
+        mRecyclerView = (RecyclerView) findViewById(R.id.mRecyclerView);
+        mLinearLayout = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLinearLayout);
+        first = second = third = true;
+        if (reset) {
+            reset = false;
+            first = second = third = false;
+        }
+        l = myDataBaseHelper.queryTable(first,second,third);
+        contactsAdapter = new MyCustomAdapter(this,l);
+        mRecyclerView.setAdapter(contactsAdapter);
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,12 +49,7 @@ public class ranking extends MainActivity {
         super.setItemChecked();
         toolbar.setTitle("RANKING");
         myDataBaseHelper = MyDataBaseHelper.getInstance(this);
-        mRecyclerView = (RecyclerView) findViewById(R.id.mRecyclerView);
-        mLinearLayout = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLinearLayout);
-        l = myDataBaseHelper.queryTable();
-        contactsAdapter = new MyCustomAdapter(this,l);
-        mRecyclerView.setAdapter(contactsAdapter);
+        init();
     }
 
     @Override
@@ -64,6 +77,8 @@ public class ranking extends MainActivity {
         }
         if (item.getItemId() == R.id.menu_item_reset) {
             myDataBaseHelper.delete_table();
+            reset = true;
+            init();
         }
 
         return true;

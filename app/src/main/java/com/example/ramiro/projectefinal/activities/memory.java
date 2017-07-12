@@ -428,7 +428,7 @@ public class memory extends MainActivity {
                         String ident = settings.getString("myString", "");
                         //String ident = getIntent().getStringExtra("usuari");
                         String punt = myDataBaseHelper.queryRow2(ident);
-                        if (punt.equals("NOT SCORED")) myDataBaseHelper.updateRow2("3",ident,String.valueOf(moves));
+                        if (punt.equals("NO SCORED")) myDataBaseHelper.updateRow2("3",ident,String.valueOf(moves));
                         else {
                             int p = Integer.parseInt(punt);
                             if (moves < p) myDataBaseHelper.updateRow2("3",ident,String.valueOf(moves));

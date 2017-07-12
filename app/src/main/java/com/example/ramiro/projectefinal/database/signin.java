@@ -48,7 +48,7 @@ public class signin extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),"RELLENA TODOS LOS CAMPOS",Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    myDataBaseHelper.createRow2("3",u,"NOT SCORED");
+                    myDataBaseHelper.createRow2("3",u,"NO SCORED");
                     myDataBaseHelper.createRow1(n,u,c,corr);
                     Toast.makeText(getApplicationContext(),"USUARIO REGISTRADO",Toast.LENGTH_SHORT).show();
                     finish();
