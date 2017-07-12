@@ -367,23 +367,19 @@ public class memory extends MainActivity {
                 }
                 break;
         }
-        Log.v("activity","valor de cont "+String.valueOf(cont));
         if (cont == 2) {
             final ImageView aux1 = (ImageView) findViewById(image1);
             final ImageView aux2 = (ImageView) findViewById(image2);
             if (id1 == id2) {
-                Log.v("activity","ids iguales");
                 ++total;
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         try {
-                            Log.v("thread","abtes");
 
                             aux1.setVisibility(v1.INVISIBLE);
                             aux2.setVisibility(v2.INVISIBLE);
-                            Log.v("thrread","despues");
                         }
                         catch (Exception e) {
                             e.printStackTrace();
@@ -394,7 +390,6 @@ public class memory extends MainActivity {
 
             }
             else {
-                Log.v("activity","ids no iguales");
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     @Override
@@ -428,12 +423,12 @@ public class memory extends MainActivity {
                         String ident = settings.getString("myString", "");
                         //String ident = getIntent().getStringExtra("usuari");
                         String punt = myDataBaseHelper.queryRow2(ident);
+                        myDataBaseHelper.updateRow3(ident,"JUEGO COMPLETADO");
                         if (punt.equals("NO SCORED")) myDataBaseHelper.updateRow2("3",ident,String.valueOf(moves));
                         else {
                             int p = Integer.parseInt(punt);
                             if (moves < p) myDataBaseHelper.updateRow2("3",ident,String.valueOf(moves));
                         }
-                        Log.v("ranking","AHORA TENGO QUE GIRAR TODO");
                         d.show();
                         initBoard();
 

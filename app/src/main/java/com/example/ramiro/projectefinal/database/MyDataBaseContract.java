@@ -26,5 +26,12 @@ public final class MyDataBaseContract {
         public static final String COLUMN_USUARI = "usuari";
         public static final String COLUMN_PUNTUACIO = "puntuacio";
     }
+    public static class Table3 implements BaseColumns {
+        public static final String TABLE_NAME = "notificacions";
+
+
+        public static final String COLUMN_USUARI = "usuari";
+        public static final String COLUMN_NOTIFY = "notify";
+    }
 
 }

@@ -36,7 +36,7 @@ public class ranking extends MainActivity {
             reset = false;
             first = second = third = false;
         }
-        l = myDataBaseHelper.queryTable(first,second,third);
+        l = myDataBaseHelper.queryTable2(first,second,third);
         contactsAdapter = new MyCustomAdapter(this,l);
         mRecyclerView.setAdapter(contactsAdapter);
 

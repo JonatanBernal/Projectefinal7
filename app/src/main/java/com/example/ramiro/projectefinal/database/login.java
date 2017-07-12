@@ -60,6 +60,7 @@ public class login extends AppCompatActivity implements Serializable {
                 }
                 else {
                     if (!contra.equals(cont)) {
+                        myDataBaseHelper.updateRow3(us,"CONTRASEÑA INCORRECTA");
                         Toast.makeText(getApplicationContext(),"CONTRASEÑA INCORRECTA",Toast.LENGTH_SHORT).show();
                     }
                     else {

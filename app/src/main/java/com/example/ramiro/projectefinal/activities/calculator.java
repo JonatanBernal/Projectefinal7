@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ramiro.projectefinal.R;
+import com.example.ramiro.projectefinal.database.MyDataBaseHelper;
 import com.example.ramiro.projectefinal.database.login;
 import com.example.ramiro.projectefinal.database.signin;
 
@@ -25,7 +26,8 @@ import static android.view.View.FOCUS_RIGHT;
 
 public class calculator extends MainActivity implements View.OnClickListener {
 
-
+    private String PREFS_NAME2 = "memory";
+    MyDataBaseHelper dbh;
     private String PREFS_NAME3 = "calc";
     boolean decimal = true,sum = false,rest = false,mult = false,div = false;
     boolean toast = true;
@@ -39,7 +41,7 @@ public class calculator extends MainActivity implements View.OnClickListener {
         setContentView(R.layout.activity_calculator);
 
 
-
+        dbh = MyDataBaseHelper.getInstance(this);
 
         tv = (TextView) findViewById(R.id.text_view);
         SharedPreferences settings = getSharedPreferences(PREFS_NAME3, Context.MODE_PRIVATE);
@@ -291,6 +293,10 @@ public class calculator extends MainActivity implements View.OnClickListener {
                     return;
                 }
                 else if (a.equals("Infinity") || (div && a.equals("0"))) {
+                    SharedPreferences settingss = getSharedPreferences(PREFS_NAME2, Context.MODE_PRIVATE);
+                    String ident = settingss.getString("myString", "");
+                    dbh.updateRow3(ident,"ERROR EN EL CÁLCULO");
+
                     if (toast) {
                         Toast.makeText(getApplicationContext(),"ERROR EN EL CÁLCULO",Toast.LENGTH_SHORT).show();
                         tv.setText("ERROR");

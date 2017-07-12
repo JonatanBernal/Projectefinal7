@@ -28,18 +28,30 @@
             android:layout_weight="1">
 
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
+            <TextView
+                android:id="@+id/profile_nom"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:textColor="@android:color/black"
+                android:textSize="30sp" />
+
+            <TextView
+                android:id="@+id/profile_us"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:textColor="@android:color/black"
+                android:textSize="30sp" />
+
+            <TextView
+                android:id="@+id/profile_correu"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:textColor="@android:color/black"
+                android:textColorLink="@android:color/black"
+                android:textSize="24sp" />
 
         </LinearLayout>
 
@@ -52,17 +64,42 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/profile_memory"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:textColor="@android:color/black"
+            android:textSize="36sp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_weight="1">
+
+            <EditText
+                android:id="@+id/profile_direcc"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:hint="ESCRIBE TU DIRECCIÓN AQUÍ"
+                android:textColor="@android:color/black"
+                android:textColorLink="@android:color/black"
+                android:textSize="24sp" />
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:text="SAVE"
+                android:id="@+id/b_save"/>
+        </LinearLayout>
+
         <TextView
+            android:id="@+id/profile_notify"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:textColor="@android:color/black"
+            android:textSize="30sp" />
 
 
     </LinearLayout>

@@ -42,12 +42,18 @@ public class MyDataBaseHelper extends SQLiteOpenHelper {
                     MyDataBaseContract.Table2.COLUMN_ICON + " TEXT, " +
                     MyDataBaseContract.Table2.COLUMN_USUARI + " TEXT UNIQUE, " +
                     MyDataBaseContract.Table2.COLUMN_PUNTUACIO + " TEXT)";
+    private static final String SQL_CREATE_TABLE3 =
+            "CREATE TABLE " + MyDataBaseContract.Table3.TABLE_NAME + " (" +
+                    MyDataBaseContract.Table3.COLUMN_USUARI + " TEXT UNIQUE, " +
+                    MyDataBaseContract.Table3.COLUMN_NOTIFY + " TEXT)";
 
     private static final String SQL_DELETE_TABLE1 =
             "DROP TABLE IF EXISTS " + MyDataBaseContract.Table1.TABLE_NAME;
 
     private static final String SQL_DELETE_TABLE2 =
             "DROP TABLE IF EXISTS " + MyDataBaseContract.Table2.TABLE_NAME;
+    private static final String SQL_DELETE_TABLE3 =
+            "DROP TABLE IF EXISTS " + MyDataBaseContract.Table3.TABLE_NAME;
 
     private static MyDataBaseHelper instance;
     private static SQLiteDatabase writable;
@@ -72,6 +78,7 @@ public class MyDataBaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(SQL_CREATE_TABLE1);
         db.execSQL(SQL_CREATE_TABLE2);
+        db.execSQL(SQL_CREATE_TABLE3);
 
     }
 
@@ -79,6 +86,7 @@ public class MyDataBaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL(SQL_DELETE_TABLE1);
         db.execSQL(SQL_DELETE_TABLE2);
+        db.execSQL(SQL_DELETE_TABLE3);
         onCreate(db);
     }
 
@@ -106,6 +114,15 @@ public class MyDataBaseHelper extends SQLiteOpenHelper {
 
     }
 
+    public void createRow3(String usuari, String notify) {
+
+        ContentValues values = new ContentValues();
+        values.put(MyDataBaseContract.Table3.COLUMN_USUARI,usuari);
+        values.put(MyDataBaseContract.Table3.COLUMN_NOTIFY,notify);
+        writable.insert(MyDataBaseContract.Table3.TABLE_NAME,null,values);
+
+    }
+
     public void updateRow1(String nombre, String usuario, String contraseña, String correo, String direccion) {
         ContentValues values = new ContentValues();
         values.put(MyDataBaseContract.Table1.COLUMN_NOMBRE,nombre);
@@ -127,6 +144,16 @@ public class MyDataBaseHelper extends SQLiteOpenHelper {
         readable.update(MyDataBaseContract.Table2.TABLE_NAME,
                 values,
                 MyDataBaseContract.Table2.COLUMN_USUARI + " LIKE ? ",
+                new String[] {usuario});
+    }
+
+    public void updateRow3(String usuario, String notify) {
+        ContentValues values = new ContentValues();
+        values.put(MyDataBaseContract.Table3.COLUMN_USUARI,usuario);
+        values.put(MyDataBaseContract.Table3.COLUMN_NOTIFY,notify);
+        readable.update(MyDataBaseContract.Table3.TABLE_NAME,
+                values,
+                MyDataBaseContract.Table3.COLUMN_USUARI + " LIKE ? ",
                 new String[] {usuario});
     }
 
@@ -172,7 +199,40 @@ public class MyDataBaseHelper extends SQLiteOpenHelper {
         return returnValue;
     }
 
-    public List<Contact> queryTable(boolean first, boolean second, boolean third) {
+    public String queryRow3(String usuari) {
+        Cursor c;
+        c = readable.query(MyDataBaseContract.Table3.TABLE_NAME,
+                new String[] {MyDataBaseContract.Table3.COLUMN_NOTIFY},
+                MyDataBaseContract.Table3.COLUMN_USUARI + " = ? ",
+                new String[] {usuari},
+                null,
+                null,
+                null);
+
+        String returnValue = null;
+
+        if (c.moveToFirst()) {
+            returnValue = c.getString(c.getColumnIndex(MyDataBaseContract.Table3.COLUMN_NOTIFY));
+        }
+
+        c.close();
+
+        return returnValue;
+    }
+
+    public Cursor queryTable1(String usuario) {
+        Cursor c;
+        c = readable.query(MyDataBaseContract.Table1.TABLE_NAME,
+                new String[] {"*"},
+                MyDataBaseContract.Table1.COLUMN_USUARI + " = ? ",
+                new String[] {usuario},
+                null,
+                null,
+                null);
+        return c;
+    }
+
+    public List<Contact> queryTable2(boolean first, boolean second, boolean third) {
         Cursor c;
         List<Contact> l = new ArrayList<>();
         c = readable.query(MyDataBaseContract.Table2.TABLE_NAME,

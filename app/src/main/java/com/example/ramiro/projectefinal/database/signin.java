@@ -63,6 +63,7 @@ public class signin extends AppCompatActivity {
                 else {
                     myDataBaseHelper.createRow2("3",u,"NO SCORED");
                     myDataBaseHelper.createRow1(n,u,c,corr);
+                    myDataBaseHelper.createRow3(u,"NO LAST NOTIFICATION");
                     Toast.makeText(getApplicationContext(),"USUARIO REGISTRADO",Toast.LENGTH_SHORT).show();
                     finish();
                 }
