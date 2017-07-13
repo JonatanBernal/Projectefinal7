@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.ramiro.projectefinal.R;
+import com.example.ramiro.projectefinal.database.MyDataBaseContract;
 import com.example.ramiro.projectefinal.database.MyDataBaseHelper;
 import com.example.ramiro.projectefinal.database.login;
 import com.example.ramiro.projectefinal.database.signin;
@@ -36,6 +38,8 @@ public class memory extends MainActivity {
 
     private String PREFS_NAME = "principal";
     private String PREFS_NAME2 = "memory";
+
+    String photo;
 
     ImageView v1,v2,v3,v4,v5,v6,v7,v8,v9,v10,v11,v12,v13,v14,v15,v16;
 
@@ -423,7 +427,13 @@ public class memory extends MainActivity {
                         String ident = settings.getString("myString", "");
                         //String ident = getIntent().getStringExtra("usuari");
                         String punt = myDataBaseHelper.queryRow2(ident);
-                        myDataBaseHelper.updateRow3(ident,"JUEGO COMPLETADO");
+                        Cursor c1 = myDataBaseHelper.queryTable3(ident);
+                        if (c1.moveToFirst()) {
+                            do {
+                                photo = c1.getString(c1.getColumnIndex(MyDataBaseContract.Table3.COLUMN_PHOTO));
+                            } while (c1.moveToNext());
+                        }
+                        myDataBaseHelper.updateRow3(ident,"JUEGO COMPLETADO",photo);
                         if (punt.equals("NO SCORED")) myDataBaseHelper.updateRow2("3",ident,String.valueOf(moves));
                         else {
                             int p = Integer.parseInt(punt);

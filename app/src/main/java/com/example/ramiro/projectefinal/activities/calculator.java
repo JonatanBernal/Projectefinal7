@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ramiro.projectefinal.R;
+import com.example.ramiro.projectefinal.database.MyDataBaseContract;
 import com.example.ramiro.projectefinal.database.MyDataBaseHelper;
 import com.example.ramiro.projectefinal.database.login;
 import com.example.ramiro.projectefinal.database.signin;
@@ -28,6 +30,8 @@ public class calculator extends MainActivity implements View.OnClickListener {
 
     private String PREFS_NAME2 = "memory";
     MyDataBaseHelper dbh;
+    Cursor c;
+    String photo;
     private String PREFS_NAME3 = "calc";
     boolean decimal = true,sum = false,rest = false,mult = false,div = false;
     boolean toast = true;
@@ -295,7 +299,13 @@ public class calculator extends MainActivity implements View.OnClickListener {
                 else if (a.equals("Infinity") || (div && a.equals("0"))) {
                     SharedPreferences settingss = getSharedPreferences(PREFS_NAME2, Context.MODE_PRIVATE);
                     String ident = settingss.getString("myString", "");
-                    dbh.updateRow3(ident,"ERROR EN EL CÁLCULO");
+                    c = dbh.queryTable3(ident);
+                    if (c.moveToFirst()) {
+                        do {
+                            photo = c.getString(c.getColumnIndex(MyDataBaseContract.Table3.COLUMN_PHOTO));
+                        } while (c.moveToNext());
+                    }
+                    dbh.updateRow3(ident,"ERROR EN EL CÁLCULO",photo);
 
                     if (toast) {
                         Toast.makeText(getApplicationContext(),"ERROR EN EL CÁLCULO",Toast.LENGTH_SHORT).show();

@@ -3,6 +3,7 @@ package com.example.ramiro.projectefinal.database;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,7 +24,7 @@ import java.io.Serializable;
 public class login extends AppCompatActivity implements Serializable {
 
 
-
+    String photo;
 
     private MyDataBaseHelper myDataBaseHelper;
 
@@ -60,7 +61,13 @@ public class login extends AppCompatActivity implements Serializable {
                 }
                 else {
                     if (!contra.equals(cont)) {
-                        myDataBaseHelper.updateRow3(us,"CONTRASEÑA INCORRECTA");
+                        Cursor c = myDataBaseHelper.queryTable3(us);
+                        if (c.moveToFirst()) {
+                            do {
+                                photo = c.getString(c.getColumnIndex(MyDataBaseContract.Table3.COLUMN_PHOTO));
+                            } while (c.moveToNext());
+                        }
+                        myDataBaseHelper.updateRow3(us,"CONTRASEÑA INCORRECTA",photo);
                         Toast.makeText(getApplicationContext(),"CONTRASEÑA INCORRECTA",Toast.LENGTH_SHORT).show();
                     }
                     else {

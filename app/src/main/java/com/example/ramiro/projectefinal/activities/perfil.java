@@ -37,11 +37,12 @@ public class perfil extends MainActivity {
     ImageView image;
     private boolean canWeRead = false;
     private Activity activity = this;
+    String photo;
 
     TextView tv1,tv2,tv3,tv4,tv5;
     EditText et1;
     Button b;
-    Cursor c;
+    Cursor c,c1,c2;
     MyDataBaseHelper dbh;
     private String PREFS_NAME2 = "memory";
 
@@ -92,12 +93,18 @@ public class perfil extends MainActivity {
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                c1 = dbh.queryTable3(usuari);
+                if (c1.moveToFirst()) {
+                    do {
+                        photo = c1.getString(c1.getColumnIndex(MyDataBaseContract.Table3.COLUMN_PHOTO));
+                    } while (c1.moveToNext());
+                }
                 if (et1.getText().toString().equals("")) {
-                    dbh.updateRow3(usuari,"ESCRIBE UNA DIRECCIÓN");
+                    dbh.updateRow3(usuari,"ESCRIBE UNA DIRECCIÓN",photo);
                     Toast.makeText(getApplicationContext(), "ESCRIBE UNA DIRECCIÓN", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    dbh.updateRow3(usuari,"DIRECCIÓN GUARDADA");
+                    dbh.updateRow3(usuari,"DIRECCIÓN GUARDADA",photo);
                     dbh.updateRow1(nom, usuari, contra, correo,et1.getText().toString());
                     Toast.makeText(getApplicationContext(), "DIRECCIÓN GUARDADA", Toast.LENGTH_SHORT).show();
                 }
@@ -105,7 +112,15 @@ public class perfil extends MainActivity {
         });
 
         if(canWeRead) {
-            loadImageFromString(sp.getString("imagePath",null));
+            c2 = dbh.queryTable3(usuari);
+            if (c2.moveToFirst()) {
+                do {
+                    photo = c2.getString(c2.getColumnIndex(MyDataBaseContract.Table3.COLUMN_PHOTO));
+                } while (c.moveToNext());
+            }
+            if (!photo.equals("R.drawable.usuario")) {
+                loadImageFromString(photo);
+            }
         }
 
         image.setOnClickListener(new View.OnClickListener() {
@@ -138,6 +153,7 @@ public class perfil extends MainActivity {
                     editor.putString("imagePath",selectedImagePath);
                     editor.apply();
                 }
+                dbh.updateRow3(usuari,notify,selectedImagePath);
                 loadImageFromUri(selectedImage);
             }
         }
