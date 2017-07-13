@@ -210,7 +210,8 @@ public class login extends AppCompatActivity implements Serializable {
 
     private void updateUI(){
         FirebaseUser u= mAuth.getCurrentUser();
-        //aqui falten coses
+        Intent i = new Intent(this,perfil.class);
+        startActivity(i);
     }
 
     @Override
