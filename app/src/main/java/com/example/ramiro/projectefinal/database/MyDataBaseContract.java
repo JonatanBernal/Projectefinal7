@@ -32,6 +32,7 @@ public final class MyDataBaseContract {
 
         public static final String COLUMN_USUARI = "usuari";
         public static final String COLUMN_NOTIFY = "notify";
+        public static final String COLUMN_PHOTO = "foto";
     }
 
 }

@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.ramiro.projectefinal.R;
@@ -34,6 +35,7 @@ public class signin extends AppCompatActivity {
         usuari = (EditText) findViewById(R.id.editText_usuar);
         contrasenya = (EditText) findViewById(R.id.password);
         correu = (EditText) findViewById(R.id.editText_correo);
+
 
 
 
@@ -63,7 +65,7 @@ public class signin extends AppCompatActivity {
                 else {
                     myDataBaseHelper.createRow2("3",u,"NO SCORED");
                     myDataBaseHelper.createRow1(n,u,c,corr);
-                    myDataBaseHelper.createRow3(u,"NO LAST NOTIFICATION");
+                    myDataBaseHelper.createRow3(u,"NO LAST NOTIFICATION","");
                     Toast.makeText(getApplicationContext(),"USUARIO REGISTRADO",Toast.LENGTH_SHORT).show();
                     finish();
                 }

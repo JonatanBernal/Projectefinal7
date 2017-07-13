@@ -23,7 +23,7 @@ public class MyDataBaseHelper extends SQLiteOpenHelper {
 
     private final String TAG = "MyDataBaseHelper";
 
-    public static final int DATABASE_VERSION = 5;
+    public static final int DATABASE_VERSION = 6;
     public static final String DATABASE_NAME = "MyDataBase.db";
 
     private boolean first = true,second = true, third = true;
@@ -45,7 +45,8 @@ public class MyDataBaseHelper extends SQLiteOpenHelper {
     private static final String SQL_CREATE_TABLE3 =
             "CREATE TABLE " + MyDataBaseContract.Table3.TABLE_NAME + " (" +
                     MyDataBaseContract.Table3.COLUMN_USUARI + " TEXT UNIQUE, " +
-                    MyDataBaseContract.Table3.COLUMN_NOTIFY + " TEXT)";
+                    MyDataBaseContract.Table3.COLUMN_NOTIFY + " TEXT, " +
+                    MyDataBaseContract.Table3.COLUMN_PHOTO + " TEXT)";
 
     private static final String SQL_DELETE_TABLE1 =
             "DROP TABLE IF EXISTS " + MyDataBaseContract.Table1.TABLE_NAME;
@@ -114,11 +115,12 @@ public class MyDataBaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public void createRow3(String usuari, String notify) {
+    public void createRow3(String usuari, String notify, String photo) {
 
         ContentValues values = new ContentValues();
         values.put(MyDataBaseContract.Table3.COLUMN_USUARI,usuari);
         values.put(MyDataBaseContract.Table3.COLUMN_NOTIFY,notify);
+        values.put(MyDataBaseContract.Table3.COLUMN_PHOTO,photo);
         writable.insert(MyDataBaseContract.Table3.TABLE_NAME,null,values);
 
     }
@@ -147,10 +149,11 @@ public class MyDataBaseHelper extends SQLiteOpenHelper {
                 new String[] {usuario});
     }
 
-    public void updateRow3(String usuario, String notify) {
+    public void updateRow3(String usuario, String notify, String photo) {
         ContentValues values = new ContentValues();
         values.put(MyDataBaseContract.Table3.COLUMN_USUARI,usuario);
         values.put(MyDataBaseContract.Table3.COLUMN_NOTIFY,notify);
+        values.put(MyDataBaseContract.Table3.COLUMN_PHOTO,photo);
         readable.update(MyDataBaseContract.Table3.TABLE_NAME,
                 values,
                 MyDataBaseContract.Table3.COLUMN_USUARI + " LIKE ? ",
@@ -263,7 +266,20 @@ public class MyDataBaseHelper extends SQLiteOpenHelper {
                 l.add(new Contact(icon,usuar,punt));
             } while (c.moveToNext());
         }
+        c.close();
         return l;
+    }
+
+    public Cursor queryTable3(String usuario) {
+        Cursor c;
+        c = readable.query(MyDataBaseContract.Table3.TABLE_NAME,
+                new String[] {"*"},
+                MyDataBaseContract.Table3.COLUMN_USUARI + " = ? ",
+                new String[] {usuario},
+                null,
+                null,
+                null);
+        return c;
     }
 
     public void delete_table() {
@@ -282,6 +298,7 @@ public class MyDataBaseHelper extends SQLiteOpenHelper {
                 updateRow2("3",usuar,"NO SCORED");
             } while (c.moveToNext());
         }
+        c.close();
 
     }
 
