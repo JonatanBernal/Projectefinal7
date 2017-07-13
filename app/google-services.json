@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "28634662210",
+    "firebase_url": "https://primer-proyectos.firebaseio.com",
+    "project_id": "primer-proyectos",
+    "storage_bucket": "primer-proyectos.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:28634662210:android:c8f4cff50b6cf568",
+        "android_client_info": {
+          "package_name": "com.example.ramiro.projectefinal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "28634662210-8dlm3t05sc3qheve9poa5pbferidr175.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.ramiro.projectefinal",
+            "certificate_hash": "8b4a8a673b5c7b206133f7c0122087da38b40ef5"
+          }
+        },
+        {
+          "client_id": "28634662210-kp7u7fkd21m3foi29htsukj5m1bs86ea.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABp-1wIvTCfLCGsZT4UMosFkEK6ioV3ts"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "28634662210-kp7u7fkd21m3foi29htsukj5m1bs86ea.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
