@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/holo_blue_light"
     android:orientation="vertical"
     tools:context="com.example.ramiro.projectefinal.database.login_fail">
 
@@ -29,8 +30,8 @@
         android:id="@+id/button_fora"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:text="TORNAR AL LOG IN"
         android:layout_weight="1"
+        android:text="TORNAR AL LOG IN"
         android:textSize="25sp" />
 
 </LinearLayout>
