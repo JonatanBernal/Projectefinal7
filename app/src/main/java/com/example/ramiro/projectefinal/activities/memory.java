@@ -11,12 +11,14 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.ramiro.projectefinal.R;
 import com.example.ramiro.projectefinal.database.MyDataBaseContract;
@@ -24,6 +26,13 @@ import com.example.ramiro.projectefinal.database.MyDataBaseHelper;
 import com.example.ramiro.projectefinal.database.login;
 import com.example.ramiro.projectefinal.database.signin;
 import com.example.ramiro.projectefinal.flipper.Coolimagefliper;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Map;
 import java.util.Random;
@@ -56,6 +65,9 @@ public class memory extends MainActivity {
     int cont = 0,moves = 0,id1 = -1,id2 = -1,total = 0,image1 = -1,image2 = -1;
     TextView tv;
 
+    private GoogleApiClient mGoogleApiClient;
+    private FirebaseAuth mAuth;
+
     int [] imagenes = {R.drawable.goku,R.drawable.krilin,R.drawable.vegeta,
             R.drawable.bulma,R.drawable.gohan,R.drawable.mutenroshi,R.drawable.freezer,R.drawable.picolo};
 
@@ -76,6 +88,22 @@ public class memory extends MainActivity {
         mutenroshi = getResources().getDrawable(R.drawable.mutenroshi);
         frezza = getResources().getDrawable(R.drawable.freezer);
         picolo = getResources().getDrawable(R.drawable.picolo);
+
+        mAuth = FirebaseAuth.getInstance();
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this, new GoogleApiClient.OnConnectionFailedListener() {
+                    @Override
+                    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+                        Toast.makeText(getApplicationContext(),"Connection failed",Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addApi(Auth.GOOGLE_SIGN_IN_API,gso)
+                .build();
+
 
         moves = 0;
         total = 0;
@@ -471,6 +499,12 @@ public class memory extends MainActivity {
             SharedPreferences.Editor editor = settings.edit();
             editor.putBoolean("myBoolean", false);
             editor.apply();
+            Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
+                @Override
+                public void onResult(@NonNull Status status) {
+                    mAuth.signOut();
+                }
+            });
             Intent t = new Intent(this,login.class);
             startActivity(t);
             finish();

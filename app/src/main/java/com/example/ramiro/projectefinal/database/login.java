@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -201,7 +202,6 @@ public class login extends AppCompatActivity implements Serializable {
                                     Toast.LENGTH_SHORT).show();
                         }
                         else {
-                            updateUI();
                         }
                     }
                 });
@@ -210,8 +210,24 @@ public class login extends AppCompatActivity implements Serializable {
 
     private void updateUI(){
         FirebaseUser u= mAuth.getCurrentUser();
+        String name = u.getDisplayName();
+        String correu = u.getEmail();
+        String photo = u.getPhotoUrl().toString();
+        myDataBaseHelper.createRow2("3",name,"NO SCORED");
+        myDataBaseHelper.createRow1(name,name,"",correu);
+        myDataBaseHelper.createRow3(name,"NO LAST NOTIFICATION",photo);
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putBoolean("myBoolean", true);
+        editor.apply();
+        SharedPreferences settings2 = getSharedPreferences(PREFS_NAME2,0);
+        SharedPreferences.Editor editor2 = settings2.edit();
+        editor2.putString("myString",name);
+        editor2.apply();
+        Toast.makeText(getApplicationContext(),"USUARIO REGISTRADO",Toast.LENGTH_SHORT).show();
         Intent i = new Intent(this,perfil.class);
         startActivity(i);
+        finish();
     }
 
     @Override
@@ -224,7 +240,6 @@ public class login extends AppCompatActivity implements Serializable {
     protected void onStart() {
         super.onStart();
         mAuth.addAuthStateListener(mAuthListener);
-        updateUI();
     }
 
     @Override

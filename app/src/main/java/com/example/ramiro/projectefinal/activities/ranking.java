@@ -3,16 +3,25 @@ package com.example.ramiro.projectefinal.activities;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.ramiro.projectefinal.R;
 import com.example.ramiro.projectefinal.RecyclerView.Contact;
 import com.example.ramiro.projectefinal.RecyclerView.MyCustomAdapter;
 import com.example.ramiro.projectefinal.database.MyDataBaseHelper;
 import com.example.ramiro.projectefinal.database.login;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
 
@@ -24,6 +33,10 @@ public class ranking extends MainActivity {
     MyCustomAdapter contactsAdapter;
     List<Contact> l;
     private boolean first,second,third,reset = false;
+
+
+    private GoogleApiClient mGoogleApiClient;
+    private FirebaseAuth mAuth;
 
 
     public void init() {
@@ -49,6 +62,24 @@ public class ranking extends MainActivity {
         super.setItemChecked();
         toolbar.setTitle("RANKING");
         myDataBaseHelper = MyDataBaseHelper.getInstance(this);
+        mAuth = FirebaseAuth.getInstance();
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this, new GoogleApiClient.OnConnectionFailedListener() {
+                    @Override
+                    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+                        Toast.makeText(getApplicationContext(),"Connection failed",Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addApi(Auth.GOOGLE_SIGN_IN_API,gso)
+                .build();
+
+
+
+
         init();
     }
 
@@ -71,6 +102,12 @@ public class ranking extends MainActivity {
             SharedPreferences.Editor editor = settings.edit();
             editor.putBoolean("myBoolean", false);
             editor.apply();
+            Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
+                @Override
+                public void onResult(@NonNull Status status) {
+                    mAuth.signOut();
+                }
+            });
             Intent t = new Intent(this,login.class);
             startActivity(t);
             finish();

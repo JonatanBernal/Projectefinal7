@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.util.ArrayMap;
 import android.util.Log;
 import android.view.Menu;
@@ -20,6 +21,7 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.example.ramiro.projectefinal.R;
@@ -27,6 +29,13 @@ import com.example.ramiro.projectefinal.database.MyDataBaseContract;
 import com.example.ramiro.projectefinal.database.MyDataBaseHelper;
 import com.example.ramiro.projectefinal.database.login;
 import com.example.ramiro.projectefinal.database.login_fail;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
+import com.google.firebase.auth.FirebaseAuth;
 
 public abstract class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -41,6 +50,10 @@ public abstract class MainActivity extends AppCompatActivity implements Navigati
     TextView tv11,tv22;
     String usuari,correo;
     Cursor c;
+    private GoogleApiClient mGoogleApiClient;
+    private FirebaseAuth mAuth;
+
+
 
     {
         m = new ArrayMap<>();
@@ -60,13 +73,34 @@ public abstract class MainActivity extends AppCompatActivity implements Navigati
     }
 
 
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        return super.onPrepareOptionsMenu(menu);
 
-
-
+    }
 
     protected void setView() {
 
        final String PREFS_NAME = "principal";
+
+        mAuth = FirebaseAuth.getInstance();
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this, new GoogleApiClient.OnConnectionFailedListener() {
+                    @Override
+                    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+                        Toast.makeText(getApplicationContext(),"Connection failed",Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addApi(Auth.GOOGLE_SIGN_IN_API,gso)
+                .build();
+
+
+
+
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -92,8 +126,8 @@ public abstract class MainActivity extends AppCompatActivity implements Navigati
             /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-                /*getSupportActionBar().setTitle(mDrawerTitle);
-                SharedPreferences settings = getSharedPreferences(PREFS_NAME2, Context.MODE_PRIVATE);
+                getSupportActionBar().setTitle(mDrawerTitle);
+                /*SharedPreferences settings = getSharedPreferences(PREFS_NAME2, Context.MODE_PRIVATE);
                 usuari = settings.getString("myString", "");
                 tv22.setText(usuari);
                 c = dbh.queryTable1(usuari);
@@ -102,13 +136,12 @@ public abstract class MainActivity extends AppCompatActivity implements Navigati
                         correo = c.getString(c.getColumnIndex(MyDataBaseContract.Table1.COLUMN_CORREO));
                     } while (c.moveToNext());
                 }
-                tv11.setText(correo);
-                */
+                tv11.setText(correo);*/
+
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
 
         };
-
 
         drawer.setDrawerListener(toggle);
 
@@ -170,6 +203,12 @@ public abstract class MainActivity extends AppCompatActivity implements Navigati
             SharedPreferences.Editor editor = settings.edit();
             editor.putBoolean("myBoolean", false);
             editor.apply();
+            Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
+                @Override
+                public void onResult(@NonNull Status status) {
+                    mAuth.signOut();
+                }
+            });
             Intent i = new Intent(this, login.class);
             startActivity(i);
             finish();
