@@ -36,12 +36,12 @@ public class perfil extends MainActivity {
     private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
     private static final int MY_PERMISSIONS_REQUEST_MANAGE_DOCUMENTS = 2;
     SharedPreferences sp;
-    CircleImageView image;
+    CircleImageView image,mimage;
     private boolean canWeRead = false;
     private Activity activity = this;
     String photo;
 
-    TextView tv1,tv2,tv3,tv4,tv5;
+    TextView tv1,tv2,tv3,tv4,tv5,tvm1,tvm2;
     EditText et1;
     Button b;
     Cursor c,c1,c2;
@@ -59,6 +59,7 @@ public class perfil extends MainActivity {
 
         sp = getSharedPreferences("galleryexample", Context.MODE_PRIVATE);
         image = (CircleImageView) findViewById(R.id.profile_photo);
+        mimage = (CircleImageView) findViewById(R.id.imageView);
         canWeRead = canWeRead();
 
 
@@ -69,6 +70,8 @@ public class perfil extends MainActivity {
         tv4 = (TextView) findViewById(R.id.profile_memory);
         tv5 = (TextView) findViewById(R.id.profile_notify);
         et1 = (EditText) findViewById(R.id.profile_direcc);
+        tvm1 = (TextView) findViewById(R.id.textView);
+        tvm2 = (TextView) findViewById(R.id.textView1);
         b = (Button) findViewById(R.id.b_save);
 
         dbh = MyDataBaseHelper.getInstance(this);
@@ -91,6 +94,10 @@ public class perfil extends MainActivity {
         if (!direcc.equals("")) et1.setText(direcc);
         tv4.setText("MOVES: "+dbh.queryRow2(usuari));
         tv5.setText(notify);
+
+        tvm1.setText(usuari);
+        tvm2.setText(correo);
+
 
         b.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -216,6 +223,7 @@ public class perfil extends MainActivity {
     private void loadImageFromUri(Uri imageUri) {
         try {
             image.setImageBitmap(MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri));
+            mimage.setImageBitmap(MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri));
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -45,19 +45,13 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public abstract class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     String PREFS_NAME = "principal";
-    String PREFS_NAME2 = "memory";
     Toolbar toolbar;
     DrawerLayout drawer;
     NavigationView navigationView;
-    ArrayMap <Integer, Class> m,n;
+    ArrayMap <Integer, Class> m;
     private CharSequence mDrawerTitle, mTitle;
     MyDataBaseHelper dbh;
     CircleImageView civ;
-    TextView tv11,tv22;
-    String usuari,correo,photo;
-    Cursor c;
-    private GoogleApiClient mGoogleApiClient;
-    private FirebaseAuth mAuth;
 
 
 
@@ -89,31 +83,11 @@ public abstract class MainActivity extends AppCompatActivity implements Navigati
 
        final String PREFS_NAME = "principal";
 
-        mAuth = FirebaseAuth.getInstance();
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this, new GoogleApiClient.OnConnectionFailedListener() {
-                    @Override
-                    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-                        Toast.makeText(getApplicationContext(),"Connection failed",Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .addApi(Auth.GOOGLE_SIGN_IN_API,gso)
-                .build();
-
-
-
-
-
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         dbh = MyDataBaseHelper.getInstance(this);
         civ = (CircleImageView) findViewById(R.id.imageView);
-        tv11 = (TextView) findViewById(R.id.textView);
-        tv22 = (TextView) findViewById(R.id.textView1);
+
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         mTitle = mDrawerTitle = getTitle();
@@ -146,21 +120,6 @@ public abstract class MainActivity extends AppCompatActivity implements Navigati
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        SharedPreferences settings2 = getSharedPreferences(PREFS_NAME2, Context.MODE_PRIVATE);
-        usuari = settings2.getString("myString", "");
-
-        c = dbh.queryTable3(usuari);
-        if (c.moveToFirst()) {
-            do {
-                photo = c.getString(c.getColumnIndex(MyDataBaseContract.Table3.COLUMN_PHOTO));
-            } while (c.moveToNext());
-        }
-        Uri imageUri = Uri.parse(photo);
-        try {
-            civ.setImageBitmap(MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     protected void setItemChecked() {

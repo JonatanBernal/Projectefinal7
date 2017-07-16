@@ -62,24 +62,6 @@ public class ranking extends MainActivity {
         super.setItemChecked();
         toolbar.setTitle("RANKING");
         myDataBaseHelper = MyDataBaseHelper.getInstance(this);
-        mAuth = FirebaseAuth.getInstance();
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this, new GoogleApiClient.OnConnectionFailedListener() {
-                    @Override
-                    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-                        Toast.makeText(getApplicationContext(),"Connection failed",Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .addApi(Auth.GOOGLE_SIGN_IN_API,gso)
-                .build();
-
-
-
-
         init();
     }
 
@@ -102,14 +84,6 @@ public class ranking extends MainActivity {
             SharedPreferences.Editor editor = settings.edit();
             editor.putBoolean("myBoolean", false);
             editor.apply();
-            /*Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
-                @Override
-                public void onResult(@NonNull Status status) {
-                    Intent t = new Intent(ranking.this,login.class);
-                    startActivity(t);
-                    finish();
-                }
-            });*/
             FirebaseAuth.getInstance().signOut();
             Intent t = new Intent(ranking.this,login.class);
             startActivity(t);

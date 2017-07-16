@@ -225,6 +225,8 @@ public class login extends AppCompatActivity implements Serializable {
         editor2.putString("myString",name);
         editor2.apply();
         Toast.makeText(getApplicationContext(),"USUARIO REGISTRADO",Toast.LENGTH_SHORT).show();
+        mAuth.signOut();
+        Auth.GoogleSignInApi.signOut(mGoogleApiClient);
         Intent i = new Intent(this,perfil.class);
         startActivity(i);
         finish();
