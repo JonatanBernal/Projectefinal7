@@ -29,12 +29,14 @@ import com.example.ramiro.projectefinal.database.MyDataBaseHelper;
 
 import java.io.IOException;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class perfil extends MainActivity {
 
     private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
     private static final int MY_PERMISSIONS_REQUEST_MANAGE_DOCUMENTS = 2;
     SharedPreferences sp;
-    ImageView image;
+    CircleImageView image;
     private boolean canWeRead = false;
     private Activity activity = this;
     String photo;
@@ -56,7 +58,7 @@ public class perfil extends MainActivity {
         toolbar.setTitle("PERFIL");
 
         sp = getSharedPreferences("galleryexample", Context.MODE_PRIVATE);
-        image = (ImageView) findViewById(R.id.profile_photo);
+        image = (CircleImageView) findViewById(R.id.profile_photo);
         canWeRead = canWeRead();
 
 

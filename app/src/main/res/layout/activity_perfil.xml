@@ -15,14 +15,14 @@
         android:layout_weight="1"
         android:orientation="horizontal">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profile_photo"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:src="@drawable/usuario">
 
-        </ImageView>
+        </de.hdodenhof.circleimageview.CircleImageView>
 
         <LinearLayout
             android:layout_width="match_parent"

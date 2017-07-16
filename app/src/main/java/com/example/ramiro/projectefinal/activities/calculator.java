@@ -34,7 +34,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import static android.view.View.FOCUS_RIGHT;
 
-public class calculator extends MainActivity implements View.OnClickListener {
+public class calculator extends MainActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
     private String PREFS_NAME2 = "memory";
     MyDataBaseHelper dbh;
@@ -62,12 +62,7 @@ public class calculator extends MainActivity implements View.OnClickListener {
                 .requestEmail()
                 .build();
         mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this, new GoogleApiClient.OnConnectionFailedListener() {
-                    @Override
-                    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-                        Toast.makeText(getApplicationContext(),"Connection failed",Toast.LENGTH_SHORT).show();
-                    }
-                })
+                .enableAutoManage(this, this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API,gso)
                 .build();
 
@@ -398,6 +393,11 @@ public class calculator extends MainActivity implements View.OnClickListener {
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
     private static double redondearDecimales(double valorInicial, int numeroDecimales) {
         double parteEntera, resultado;
         resultado = valorInicial;
@@ -440,13 +440,16 @@ public class calculator extends MainActivity implements View.OnClickListener {
             SharedPreferences.Editor editor = settings.edit();
             editor.putBoolean("myBoolean", false);
             editor.apply();
-            Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
+            /*Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
                 @Override
                 public void onResult(@NonNull Status status) {
-                    mAuth.signOut();
+                    Intent t = new Intent(calculator.this,login.class);
+                    startActivity(t);
+                    finish();
                 }
-            });
-            Intent t = new Intent(this,login.class);
+            });*/
+            FirebaseAuth.getInstance().signOut();
+            Intent t = new Intent(calculator.this,login.class);
             startActivity(t);
             finish();
         }
@@ -496,5 +499,10 @@ public class calculator extends MainActivity implements View.OnClickListener {
         div = savedInstanceState.getBoolean("divi");
         toast = savedInstanceState.getBoolean("notify");
         resultado = savedInstanceState.getDouble("result");;
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
     }
 }

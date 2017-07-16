@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.util.ArrayMap;
 import android.util.Log;
@@ -37,6 +38,10 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.io.IOException;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public abstract class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     String PREFS_NAME = "principal";
@@ -47,8 +52,9 @@ public abstract class MainActivity extends AppCompatActivity implements Navigati
     ArrayMap <Integer, Class> m,n;
     private CharSequence mDrawerTitle, mTitle;
     MyDataBaseHelper dbh;
+    CircleImageView civ;
     TextView tv11,tv22;
-    String usuari,correo;
+    String usuari,correo,photo;
     Cursor c;
     private GoogleApiClient mGoogleApiClient;
     private FirebaseAuth mAuth;
@@ -105,6 +111,7 @@ public abstract class MainActivity extends AppCompatActivity implements Navigati
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         dbh = MyDataBaseHelper.getInstance(this);
+        civ = (CircleImageView) findViewById(R.id.imageView);
         tv11 = (TextView) findViewById(R.id.textView);
         tv22 = (TextView) findViewById(R.id.textView1);
 
@@ -127,17 +134,6 @@ public abstract class MainActivity extends AppCompatActivity implements Navigati
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
                 getSupportActionBar().setTitle(mDrawerTitle);
-                /*SharedPreferences settings = getSharedPreferences(PREFS_NAME2, Context.MODE_PRIVATE);
-                usuari = settings.getString("myString", "");
-                tv22.setText(usuari);
-                c = dbh.queryTable1(usuari);
-                if (c.moveToFirst()) {
-                    do {
-                        correo = c.getString(c.getColumnIndex(MyDataBaseContract.Table1.COLUMN_CORREO));
-                    } while (c.moveToNext());
-                }
-                tv11.setText(correo);*/
-
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
 
@@ -150,6 +146,21 @@ public abstract class MainActivity extends AppCompatActivity implements Navigati
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        SharedPreferences settings2 = getSharedPreferences(PREFS_NAME2, Context.MODE_PRIVATE);
+        usuari = settings2.getString("myString", "");
+
+        c = dbh.queryTable3(usuari);
+        if (c.moveToFirst()) {
+            do {
+                photo = c.getString(c.getColumnIndex(MyDataBaseContract.Table3.COLUMN_PHOTO));
+            } while (c.moveToNext());
+        }
+        Uri imageUri = Uri.parse(photo);
+        try {
+            civ.setImageBitmap(MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     protected void setItemChecked() {
@@ -203,14 +214,17 @@ public abstract class MainActivity extends AppCompatActivity implements Navigati
             SharedPreferences.Editor editor = settings.edit();
             editor.putBoolean("myBoolean", false);
             editor.apply();
-            Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
+            /*Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
                 @Override
                 public void onResult(@NonNull Status status) {
-                    mAuth.signOut();
+                    Intent t = new Intent(MainActivity.this,login.class);
+                    startActivity(t);
+                    finish();
                 }
-            });
-            Intent i = new Intent(this, login.class);
-            startActivity(i);
+            });*/
+            FirebaseAuth.getInstance().signOut();
+            Intent t = new Intent(MainActivity.this,login.class);
+            startActivity(t);
             finish();
         }
         return true;

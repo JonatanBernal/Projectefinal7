@@ -102,13 +102,16 @@ public class ranking extends MainActivity {
             SharedPreferences.Editor editor = settings.edit();
             editor.putBoolean("myBoolean", false);
             editor.apply();
-            Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
+            /*Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
                 @Override
                 public void onResult(@NonNull Status status) {
-                    mAuth.signOut();
+                    Intent t = new Intent(ranking.this,login.class);
+                    startActivity(t);
+                    finish();
                 }
-            });
-            Intent t = new Intent(this,login.class);
+            });*/
+            FirebaseAuth.getInstance().signOut();
+            Intent t = new Intent(ranking.this,login.class);
             startActivity(t);
             finish();
         }
