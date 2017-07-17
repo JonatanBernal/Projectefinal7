@@ -1,5 +1,6 @@
 package com.example.ramiro.projectefinal.activities;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -44,6 +45,7 @@ import java.io.IOException;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.example.ramiro.projectefinal.R.id.activity;
+import static com.example.ramiro.projectefinal.R.id.us;
 
 public abstract class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -59,7 +61,7 @@ public abstract class MainActivity extends AppCompatActivity implements Navigati
     TextView tv1,tv2;
     Cursor c;
 
-    String usuari,correo;
+    String usuari,correo,photo;
 
 
 
@@ -94,7 +96,7 @@ public abstract class MainActivity extends AppCompatActivity implements Navigati
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         dbh = MyDataBaseHelper.getInstance(this);
-        civ = (CircleImageView) findViewById(R.id.imageView);
+
 
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -126,6 +128,14 @@ public abstract class MainActivity extends AppCompatActivity implements Navigati
                     } while (c.moveToNext());
                 }
                 tv1.setText(correo);
+                c = dbh.queryTable3(usuari);
+                if (c.moveToFirst()) {
+                    do {
+                        photo = c.getString(c.getColumnIndex(MyDataBaseContract.Table3.COLUMN_PHOTO));
+                    } while (c.moveToNext());
+                }
+                Uri ur = Uri.parse(photo);
+                civ.setImageBitmap(MediaStore.Images.Media.getBitmap(this.getContentTesolver(), ur));
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
 
@@ -138,10 +148,10 @@ public abstract class MainActivity extends AppCompatActivity implements Navigati
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        civ = (CircleImageView) navigationView.getHeaderView(0).findViewById(R.id.imageView);
+        tv1 = (TextView) navigationView.getHeaderView(0).findViewById(R.id.textView);
+        tv2 = (TextView) navigationView.getHeaderView(0).findViewById(R.id.textView1);
 
-        View hview = navigationView.inflateHeaderView(R.layout.nav_header_main);
-        tv1 = (TextView) hview.findViewById(R.id.textView);
-        tv2 = (TextView) hview.findViewById(R.id.textView1);
 
     }
 
