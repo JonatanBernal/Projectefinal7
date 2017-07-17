@@ -10,6 +10,7 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.util.ArrayMap;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -42,9 +43,12 @@ import java.io.IOException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static com.example.ramiro.projectefinal.R.id.activity;
+
 public abstract class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     String PREFS_NAME = "principal";
+    String PREFS_NAME2 = "memory";
     Toolbar toolbar;
     DrawerLayout drawer;
     NavigationView navigationView;
@@ -52,6 +56,10 @@ public abstract class MainActivity extends AppCompatActivity implements Navigati
     private CharSequence mDrawerTitle, mTitle;
     MyDataBaseHelper dbh;
     CircleImageView civ;
+    TextView tv1,tv2;
+    Cursor c;
+
+    String usuari,correo;
 
 
 
@@ -69,6 +77,8 @@ public abstract class MainActivity extends AppCompatActivity implements Navigati
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         super.setContentView(R.layout.activity_main);
+        tv1 = (TextView) findViewById(R.id.textView);
+        tv2 = (TextView) findViewById(R.id.textView1);
         setView();
     }
 
@@ -108,6 +118,16 @@ public abstract class MainActivity extends AppCompatActivity implements Navigati
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
                 getSupportActionBar().setTitle(mDrawerTitle);
+                SharedPreferences settings = getSharedPreferences(PREFS_NAME2, Context.MODE_PRIVATE);
+                usuari = settings.getString("myString", "");
+                tv2.setText(usuari);
+                c = dbh.queryTable1(usuari);
+                if (c.moveToFirst()) {
+                    do {
+                        correo = c.getString(c.getColumnIndex(MyDataBaseContract.Table1.COLUMN_CORREO));
+                    } while (c.moveToNext());
+                }
+                tv1.setText(correo);
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
 
