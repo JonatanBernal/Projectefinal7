@@ -135,7 +135,7 @@ public abstract class MainActivity extends AppCompatActivity implements Navigati
                     } while (c.moveToNext());
                 }
                 Uri ur = Uri.parse(photo);
-                civ.setImageBitmap(MediaStore.Images.Media.getBitmap(this.getContentTesolver(), ur));
+                //civ.setImageBitmap(MediaStore.Images.Media.getBitmap(.getContentResolver(), ur));
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
 
