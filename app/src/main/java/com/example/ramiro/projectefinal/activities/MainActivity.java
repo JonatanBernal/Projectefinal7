@@ -77,8 +77,6 @@ public abstract class MainActivity extends AppCompatActivity implements Navigati
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         super.setContentView(R.layout.activity_main);
-        tv1 = (TextView) findViewById(R.id.textView);
-        tv2 = (TextView) findViewById(R.id.textView1);
         setView();
     }
 
@@ -140,6 +138,11 @@ public abstract class MainActivity extends AppCompatActivity implements Navigati
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+
+        View hview = navigationView.inflateHeaderView(R.layout.nav_header_main);
+        tv1 = (TextView) hview.findViewById(R.id.textView);
+        tv2 = (TextView) hview.findViewById(R.id.textView1);
+
     }
 
     protected void setItemChecked() {
@@ -193,14 +196,6 @@ public abstract class MainActivity extends AppCompatActivity implements Navigati
             SharedPreferences.Editor editor = settings.edit();
             editor.putBoolean("myBoolean", false);
             editor.apply();
-            /*Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
-                @Override
-                public void onResult(@NonNull Status status) {
-                    Intent t = new Intent(MainActivity.this,login.class);
-                    startActivity(t);
-                    finish();
-                }
-            });*/
             FirebaseAuth.getInstance().signOut();
             Intent t = new Intent(MainActivity.this,login.class);
             startActivity(t);
