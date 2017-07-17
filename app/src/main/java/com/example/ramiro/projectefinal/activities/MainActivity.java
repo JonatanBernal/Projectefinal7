@@ -46,6 +46,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.example.ramiro.projectefinal.R.id.activity;
 import static com.example.ramiro.projectefinal.R.id.us;
+import static java.security.AccessController.getContext;
 
 public abstract class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -118,16 +119,6 @@ public abstract class MainActivity extends AppCompatActivity implements Navigati
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
                 getSupportActionBar().setTitle(mDrawerTitle);
-                SharedPreferences settings = getSharedPreferences(PREFS_NAME2, Context.MODE_PRIVATE);
-                usuari = settings.getString("myString", "");
-                tv2.setText(usuari);
-                c = dbh.queryTable1(usuari);
-                if (c.moveToFirst()) {
-                    do {
-                        correo = c.getString(c.getColumnIndex(MyDataBaseContract.Table1.COLUMN_CORREO));
-                    } while (c.moveToNext());
-                }
-                tv1.setText(correo);
                 c = dbh.queryTable3(usuari);
                 if (c.moveToFirst()) {
                     do {
@@ -135,7 +126,11 @@ public abstract class MainActivity extends AppCompatActivity implements Navigati
                     } while (c.moveToNext());
                 }
                 Uri ur = Uri.parse(photo);
-                //civ.setImageBitmap(MediaStore.Images.Media.getBitmap(.getContentResolver(), ur));
+                try {
+                    civ.setImageBitmap(MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), ur));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
 
@@ -151,6 +146,17 @@ public abstract class MainActivity extends AppCompatActivity implements Navigati
         civ = (CircleImageView) navigationView.getHeaderView(0).findViewById(R.id.imageView);
         tv1 = (TextView) navigationView.getHeaderView(0).findViewById(R.id.textView);
         tv2 = (TextView) navigationView.getHeaderView(0).findViewById(R.id.textView1);
+
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME2, Context.MODE_PRIVATE);
+        usuari = settings.getString("myString", "");
+        tv2.setText(usuari);
+        c = dbh.queryTable1(usuari);
+        if (c.moveToFirst()) {
+            do {
+                correo = c.getString(c.getColumnIndex(MyDataBaseContract.Table1.COLUMN_CORREO));
+            } while (c.moveToNext());
+        }
+        tv1.setText(correo);
 
 
     }
